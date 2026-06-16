@@ -1,0 +1,76 @@
+/* ============================================================
+   GreenTrack — Design tokens & theming (light + dark)
+   ============================================================ */
+
+:root {
+  /* brand greens */
+  --green: #2d6a4f;
+  --green-600: #2d6a4f;
+  --green-500: #40916c;
+  --green-light: #52b788;
+  --green-mid: #74c69d;
+  --green-pale: #d8f3dc;
+  --amber: #e9c46a;
+  --amber-dark: #f4a261;
+  --rose: #e76f73;
+
+  /* light theme surfaces */
+  --bg: #f6faf6;
+  --bg2: #eef7ee;
+  --surface: #ffffff;
+  --surface-2: #f3f8f3;
+  --text: #14241b;
+  --text2: #4a6454;
+  --text3: #7c9286;
+  --border: rgba(45, 106, 79, 0.14);
+  --border-strong: rgba(45, 106, 79, 0.28);
+
+  /* effects */
+  --shadow-sm: 0 1px 2px rgba(20, 36, 27, 0.06);
+  --shadow: 0 6px 24px rgba(45, 106, 79, 0.08);
+  --shadow-lg: 0 20px 60px rgba(45, 106, 79, 0.14);
+  --shadow-glow: 0 8px 30px rgba(82, 183, 136, 0.3);
+  --glass: rgba(246, 250, 246, 0.72);
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 72% 35%, rgba(116, 198, 157, 0.22) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 8% 85%, rgba(82, 183, 136, 0.12) 0%, transparent 60%);
+
+  /* shape & motion */
+  --r-sm: 10px;
+  --r: 14px;
+  --r-lg: 20px;
+  --r-xl: 26px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --nav-h: 68px;
+  --sidebar-w: 248px;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0c1410;
+  --bg2: #0f1a14;
+  --surface: #14211a;
+  --surface-2: #1a2b22;
+  --text: #e9f4ec;
+  --text2: #a6c2b2;
+  --text3: #6f8a7c;
+  --border: rgba(116, 198, 157, 0.14);
+  --border-strong: rgba(116, 198, 157, 0.28);
+
+  --green: #52b788;
+  --green-pale: #1c3a2b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 8px 34px rgba(82, 183, 136, 0.34);
+  --glass: rgba(12, 20, 16, 0.72);
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 72% 35%, rgba(82, 183, 136, 0.16) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 8% 85%, rgba(82, 183, 136, 0.1) 0%, transparent 60%);
+
+  color-scheme: dark;
+}
