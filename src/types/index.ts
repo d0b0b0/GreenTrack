@@ -55,4 +55,6 @@ export interface ToastMsg {
   text: string
   emoji?: string
   kind?: 'default' | 'achievement'
+  header?: string
+  title?: string
 }

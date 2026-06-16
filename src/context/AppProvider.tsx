@@ -122,7 +122,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
           newChal[idx] = done
           pointsDelta += def.reward
           await backend.saveChallengeProgress(base.id, done)
-          push(`Челендж пройдено: ${def.title} (+${def.reward})`, { emoji: def.emoji, kind: 'achievement' })
+          push(`+${def.reward} балів`, {
+            emoji: def.emoji,
+            kind: 'achievement',
+            header: '🎯 Челендж пройдено!',
+            title: def.title,
+          })
         } else {
           newChal[idx] = { ...cp, progress }
         }
@@ -140,9 +145,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
             pointsDelta += def.reward
             changed = true
             await backend.addAchievement(base.id, def.id)
-            push(`Досягнення: ${def.title}${def.reward ? ` (+${def.reward})` : ''}`, {
+            push(def.reward ? `+${def.reward} балів` : 'Розблоковано', {
               emoji: def.icon,
               kind: 'achievement',
+              header: '🏅 Досягнення розблоковано!',
+              title: def.title,
             })
           }
         }
