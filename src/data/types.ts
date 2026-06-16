@@ -9,6 +9,8 @@ export interface AuthError {
   error?: string
 }
 
+export type ActivityPatch = Partial<Pick<Activity, 'category' | 'co2' | 'note' | 'date'>>
+
 /** Unified persistence interface implemented by both backends. */
 export interface Backend {
   readonly kind: 'supabase' | 'local'
@@ -27,6 +29,7 @@ export interface Backend {
   /* activities */
   listActivities(userId: string): Promise<Activity[]>
   addActivity(a: Omit<Activity, 'id' | 'createdAt'>): Promise<Activity>
+  updateActivity(userId: string, id: string, patch: ActivityPatch): Promise<Activity>
   deleteActivity(userId: string, id: string): Promise<void>
 
   /* challenges */

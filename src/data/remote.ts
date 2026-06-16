@@ -2,7 +2,7 @@ import type { Activity, ChallengeProgress, LeaderboardEntry, Profile, UserSettin
 import { pickAvatarColor } from '../lib/format'
 import { levelFor } from '../lib/levels'
 import { supabase } from '../lib/supabase'
-import type { Backend, SessionUser } from './types'
+import type { ActivityPatch, Backend, SessionUser } from './types'
 
 /* ───────────── Supabase backend ───────────── */
 
@@ -159,6 +159,17 @@ export class SupabaseBackend implements Backend {
     const { data, error } = await sb()
       .from('activities')
       .insert({ user_id: a.userId, category: a.category, co2: a.co2, note: a.note, date: a.date })
+      .select()
+      .single()
+    if (error) throw error
+    return rowToActivity(data as ActivityRow)
+  }
+
+  async updateActivity(_userId: string, id: string, patch: ActivityPatch): Promise<Activity> {
+    const { data, error } = await sb()
+      .from('activities')
+      .update({ category: patch.category, co2: patch.co2, note: patch.note, date: patch.date })
+      .eq('id', id)
       .select()
       .single()
     if (error) throw error

@@ -45,7 +45,7 @@ export function AppLayout() {
       <div className={`sidebar-backdrop ${open ? 'open' : ''}`} onClick={() => setOpen(false)} />
       <aside className={`sidebar ${open ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          <Logo to="/app" />
+          <Logo to="/" />
         </div>
         <nav className="side-nav" onClick={() => setOpen(false)}>
           {SECTIONS.map((sec) => (

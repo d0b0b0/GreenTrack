@@ -1,7 +1,7 @@
 import type { Activity, ChallengeProgress, LeaderboardEntry, Profile } from '../types'
 import { pickAvatarColor, todayISO } from '../lib/format'
 import { levelFor } from '../lib/levels'
-import type { Backend, SessionUser } from './types'
+import type { ActivityPatch, Backend, SessionUser } from './types'
 
 /* ───────────── localStorage demo backend ───────────── */
 
@@ -186,6 +186,16 @@ export class LocalBackend implements Backend {
     list.push(full)
     write(K.acts(a.userId), list)
     return full
+  }
+
+  async updateActivity(userId: string, id: string, patch: ActivityPatch): Promise<Activity> {
+    const list = read<Activity[]>(K.acts(userId), [])
+    const idx = list.findIndex((e) => e.id === id)
+    if (idx < 0) throw new Error('Запис не знайдено')
+    const updated = { ...list[idx], ...patch }
+    list[idx] = updated
+    write(K.acts(userId), list)
+    return updated
   }
 
   async deleteActivity(userId: string, id: string) {

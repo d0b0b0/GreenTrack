@@ -12,6 +12,7 @@ import { ACHIEVEMENTS } from '../lib/achievements'
 import { CHALLENGES, defaultProgress } from '../lib/challenges'
 import { monthlyTotal, totalCo2 } from '../lib/carbon'
 import { useToast } from './ToastProvider'
+import type { ActivityPatch } from '../data/types'
 import type { Activity, Category, ChallengeProgress, Profile } from '../types'
 
 interface AppCtx {
@@ -29,6 +30,7 @@ interface AppCtx {
   signOut: () => Promise<void>
 
   addActivity: (input: { category: Category; co2: number; note: string; date: string }) => Promise<void>
+  updateActivity: (id: string, patch: ActivityPatch) => Promise<void>
   deleteActivity: (id: string) => Promise<void>
   updateProfile: (patch: Partial<Profile>) => Promise<void>
   setBaseline: (annual: number) => Promise<void>
@@ -211,6 +213,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [userId, activities, challengeProgress, achievements, recompute, push],
   )
 
+  const updateActivity = useCallback(
+    async (id: string, patch: ActivityPatch) => {
+      if (!userId) return
+      const updated = await backend.updateActivity(userId, id, patch)
+      const next = activities
+        .map((a) => (a.id === id ? updated : a))
+        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt))
+      setActivities(next)
+      await recompute(next, challengeProgress, achievements)
+    },
+    [userId, activities, challengeProgress, achievements, recompute],
+  )
+
   const deleteActivity = useCallback(
     async (id: string) => {
       if (!userId) return
@@ -282,6 +297,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     signIn,
     signOut,
     addActivity,
+    updateActivity,
     deleteActivity,
     updateProfile,
     setBaseline,

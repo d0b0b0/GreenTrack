@@ -78,6 +78,10 @@ export function LeaderboardPanel() {
             })}
           </tbody>
         </table>
+        <p className="muted-3" style={{ fontSize: '0.78rem', marginTop: '0.9rem' }}>
+          Показано {rows.length} {rows.length === 1 ? 'учасника' : 'учасників'} із публічним профілем (топ-100 за балами).
+          Вимкнути показ можна у <strong>Профіль → Налаштування → Публічний профіль</strong>.
+        </p>
       </div>
 
       <div className="card" style={{ marginTop: '1.2rem' }}>
