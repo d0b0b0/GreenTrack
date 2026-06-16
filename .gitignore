@@ -8,7 +8,7 @@ dist
 dist-ssr
 *.local
 
-# env files (keep .env.example committed)
+# env files — секрети не комітимо
 .env
 .env.local
 .env.*.local
