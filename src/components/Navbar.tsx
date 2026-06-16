@@ -8,7 +8,7 @@ import { UserMenu } from './UserMenu'
 
 const LINKS = [
   { href: '/#features', label: 'Можливості' },
-  { href: '/calculator', label: 'Калькулятор' },
+  { href: '/#calculator', label: 'Калькулятор' },
   { href: '/#howto', label: 'Як це працює' },
   { href: '/#team', label: 'Команда' },
 ]

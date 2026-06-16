@@ -19,24 +19,19 @@ const SECTIONS: { label: string; items: NavItem[] }[] = [
     items: [
       { to: '/app', icon: '📊', label: 'Панель', end: true },
       { to: '/app/activities', icon: '📝', label: 'Активності' },
-      { to: '/app/analytics', icon: '📈', label: 'Аналітика' },
-      { to: '/calculator', icon: '🧮', label: 'Калькулятор' },
+      { to: '/app/calculator', icon: '🧮', label: 'Калькулятор' },
     ],
   },
   {
     label: 'Прогрес',
     items: [
-      { to: '/app/challenges', icon: '🎯', label: 'Челенджі' },
-      { to: '/app/leaderboard', icon: '🏆', label: 'Рейтинг' },
+      { to: '/app/community', icon: '🌍', label: 'Спільнота' },
       { to: '/app/library', icon: '📚', label: 'Бібліотека' },
     ],
   },
   {
     label: 'Акаунт',
-    items: [
-      { to: '/app/profile', icon: '👤', label: 'Профіль' },
-      { to: '/app/settings', icon: '⚙️', label: 'Налаштування' },
-    ],
+    items: [{ to: '/app/profile', icon: '👤', label: 'Профіль' }],
   },
 ]
 

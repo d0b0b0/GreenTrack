@@ -16,9 +16,8 @@ export function Footer() {
           <div className="footer-col">
             <h4>Продукт</h4>
             <Link to="/app">Панель</Link>
-            <Link to="/calculator">Калькулятор</Link>
-            <Link to="/app/challenges">Челенджі</Link>
-            <Link to="/app/leaderboard">Рейтинг</Link>
+            <a href="/#calculator">Калькулятор</a>
+            <Link to="/app/community">Спільнота</Link>
             <Link to="/app/library">Бібліотека</Link>
           </div>
           <div className="footer-col">

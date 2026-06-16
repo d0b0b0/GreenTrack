@@ -34,7 +34,7 @@ export default function Activities() {
   }
 
   return (
-    <>
+    <div className="route-fade">
       <div className="row between wrap" style={{ marginBottom: '1.2rem', gap: '0.8rem' }}>
         <div>
           <h1 className="greeting">Активності</h1>
@@ -45,7 +45,7 @@ export default function Activities() {
         </button>
       </div>
 
-      <div className="dash-grid">
+      <div className="dash-grid stagger">
         <div className="card col-12">
           <div className="card-title">Додати активність</div>
           <ActivityForm />
@@ -87,6 +87,6 @@ export default function Activities() {
           <ActivityList items={filtered} emptyHint={activities.length ? 'Нічого не знайдено за фільтром.' : undefined} />
         </div>
       </div>
-    </>
+    </div>
   )
 }

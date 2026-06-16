@@ -8,7 +8,7 @@ export default function Library() {
   const list = cat === 'Всі' ? ARTICLES : ARTICLES.filter((a) => a.category === cat)
 
   return (
-    <>
+    <div className="route-fade">
       <div style={{ marginBottom: '1.2rem' }}>
         <h1 className="greeting">Еко-бібліотека 📚</h1>
         <p className="page-sub">Перевірені поради та статті, щоб зменшувати слід усвідомлено.</p>
@@ -22,7 +22,7 @@ export default function Library() {
         ))}
       </div>
 
-      <div className="lib-grid">
+      <div className="lib-grid stagger">
         {list.map((a) => (
           <Link className="card hover article-card" to={`/app/library/${a.id}`} key={a.id}>
             <div className="article-cover" style={{ background: a.cover }}>{a.emoji}</div>
@@ -39,6 +39,6 @@ export default function Library() {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   )
 }

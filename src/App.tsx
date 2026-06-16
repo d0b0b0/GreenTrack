@@ -1,20 +1,17 @@
 import { lazy, Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { MarketingLayout } from './components/MarketingLayout'
 import { AppLayout } from './components/AppLayout'
 import { RequireAuth } from './components/RequireAuth'
 import Landing from './pages/Landing'
 
-const Calculator = lazy(() => import('./pages/Calculator'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Activities = lazy(() => import('./pages/Activities'))
-const Analytics = lazy(() => import('./pages/Analytics'))
-const Challenges = lazy(() => import('./pages/Challenges'))
-const Leaderboard = lazy(() => import('./pages/Leaderboard'))
+const Calculator = lazy(() => import('./pages/Calculator'))
+const Community = lazy(() => import('./pages/Community'))
 const Library = lazy(() => import('./pages/Library'))
 const Article = lazy(() => import('./pages/Article'))
 const Profile = lazy(() => import('./pages/Profile'))
-const Settings = lazy(() => import('./pages/Settings'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function PageFallback() {
@@ -33,7 +30,6 @@ export default function App() {
         {/* public marketing */}
         <Route element={<MarketingLayout />}>
           <Route path="/" element={<Landing />} />
-          <Route path="/calculator" element={<Calculator />} />
         </Route>
 
         {/* authenticated app */}
@@ -47,14 +43,21 @@ export default function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="activities" element={<Activities />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="challenges" element={<Challenges />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="calculator" element={<Calculator />} />
+          <Route path="community" element={<Community />} />
           <Route path="library" element={<Library />} />
           <Route path="library/:id" element={<Article />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
+
+          {/* redirects from old consolidated routes */}
+          <Route path="analytics" element={<Navigate to="/app" replace />} />
+          <Route path="challenges" element={<Navigate to="/app/community" replace />} />
+          <Route path="leaderboard" element={<Navigate to="/app/community" replace />} />
+          <Route path="settings" element={<Navigate to="/app/profile" replace />} />
         </Route>
+
+        {/* old public calculator path → in-app */}
+        <Route path="/calculator" element={<Navigate to="/app/calculator" replace />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -19,7 +19,7 @@ export default function Article() {
   const related = ARTICLES.filter((a) => a.id !== article.id).slice(0, 3)
 
   return (
-    <article style={{ maxWidth: 760, margin: '0 auto' }}>
+    <article className="route-fade" style={{ maxWidth: 760, margin: '0 auto' }}>
       <Link className="btn-link" to="/app/library">← Бібліотека</Link>
       <div
         className="article-cover"

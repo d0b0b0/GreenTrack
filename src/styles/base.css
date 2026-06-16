@@ -119,6 +119,24 @@ input, select, textarea {
 .reveal-2 { animation: fadeUp 0.7s 0.12s var(--ease) both; }
 .reveal-3 { animation: fadeUp 0.7s 0.24s var(--ease) both; }
 
+/* page/route transition */
+.route-fade { animation: fadeUp 0.4s var(--ease) both; }
+.tab-fade { animation: fadeUp 0.32s var(--ease) both; }
+
+/* staggered entrance for grids/cards */
+.stagger > * { animation: fadeUp 0.5s var(--ease) both; }
+.stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger > *:nth-child(3) { animation-delay: 0.10s; }
+.stagger > *:nth-child(4) { animation-delay: 0.14s; }
+.stagger > *:nth-child(5) { animation-delay: 0.18s; }
+.stagger > *:nth-child(6) { animation-delay: 0.22s; }
+.stagger > *:nth-child(7) { animation-delay: 0.26s; }
+.stagger > *:nth-child(8) { animation-delay: 0.30s; }
+.stagger > *:nth-child(9) { animation-delay: 0.34s; }
+.stagger > *:nth-child(10) { animation-delay: 0.38s; }
+.stagger > *:nth-child(n+11) { animation-delay: 0.42s; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }

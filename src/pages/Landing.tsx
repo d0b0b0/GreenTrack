@@ -1,6 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppProvider'
 import { useAuthModal } from '../context/AuthModalProvider'
+import { CalculatorWidget } from '../components/CalculatorWidget'
 
 const FEATURES = [
   { icon: '🌍', title: 'Розрахунок сліду', text: 'Вводьте дані про транспорт, харчування та побут — отримуйте точні цифри впливу на клімат.' },
@@ -59,9 +60,9 @@ export default function Landing() {
               <button className="btn btn-primary lg" onClick={startCta}>
                 {authed ? 'Відкрити панель →' : 'Почати безкоштовно →'}
               </button>
-              <Link className="btn btn-ghost lg" to="/calculator">
+              <a className="btn btn-ghost lg" href="#calculator">
                 Спробувати калькулятор
-              </Link>
+              </a>
             </div>
             <div className="hero-stats">
               <div>
@@ -106,6 +107,18 @@ export default function Landing() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CALCULATOR */}
+      <section className="section" id="calculator">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-tag">Безкоштовний калькулятор</div>
+            <h2>Розрахуйте свій річний слід за хвилину</h2>
+            <p>Заповніть форму й дізнайтесь, скільки CO₂ ви виробляєте на рік та як це порівнюється із середнім по Україні.</p>
+          </div>
+          <CalculatorWidget />
         </div>
       </section>
 

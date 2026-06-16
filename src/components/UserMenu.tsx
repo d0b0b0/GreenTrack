@@ -39,7 +39,7 @@ export function UserMenu() {
           <button className="dd-item" onClick={() => { setOpen(false); navigate('/app/profile') }}>
             👤 Профіль
           </button>
-          <button className="dd-item" onClick={() => { setOpen(false); navigate('/app/settings') }}>
+          <button className="dd-item" onClick={() => { setOpen(false); navigate('/app/profile') }}>
             ⚙️ Налаштування
           </button>
           <button className="dd-item danger" onClick={() => { setOpen(false); signOut() }}>
