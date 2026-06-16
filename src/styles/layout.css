@@ -78,7 +78,9 @@
   display: flex; flex-direction: column;
   padding: 1.1rem 0.9rem;
 }
-.sidebar-logo { padding: 0.4rem 0.7rem 1.4rem; }
+.sidebar-logo { padding: 0.4rem 0.55rem 1.4rem; }
+.sidebar-logo .logo { font-size: 1.12rem; gap: 7px; }
+.sidebar-logo .logo-mark { width: 23px; height: 23px; font-size: 0.8rem; }
 .side-nav { display: flex; flex-direction: column; gap: 0.18rem; }
 .side-section-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); font-weight: 700; padding: 1rem 0.85rem 0.45rem; }
 .side-link {
