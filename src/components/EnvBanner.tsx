@@ -9,7 +9,7 @@ export function EnvBanner() {
       <span>🧪</span>
       <span>
         <strong>Demo-режим.</strong> Дані зберігаються лише у цьому браузері. Щоб увімкнути спільну хмарну
-        базу даних — додайте ключі Supabase (див. <code>SUPABASE_SETUP.md</code>).
+        базу даних — додайте ключі Supabase у файл <code>.env</code>.
       </span>
     </div>
   )

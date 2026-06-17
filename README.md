@@ -51,9 +51,6 @@ npm run preview    # local preview of the build
 
 ## 🗄️ Connect a real database (free)
 
-Full guide: **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** (~5 minutes).
-
-In short:
 1. Create a free project at [supabase.com](https://supabase.com).
 2. Run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL Editor.
 3. Copy the `Project URL` and `anon` key into a `.env` file:

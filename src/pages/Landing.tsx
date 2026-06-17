@@ -24,12 +24,6 @@ const STEPS = [
   { n: 4, title: 'Змагайтесь і надихайте інших', text: 'Підіймайтесь у рейтингу, відкривайте досягнення та зменшуйте слід разом.' },
 ]
 
-const TESTIMONIALS = [
-  { text: 'Нарешті зрозуміла, на що йде мій вуглецевий слід. Челенджі реально мотивують — за місяць мінус 14%.', name: 'Олена К.', role: 'Студентка', color: '#52B788' },
-  { text: 'Логую поїздки щодня, графіки показують прогрес. Рейтинг із друзями — окремий кайф.', name: 'Андрій Б.', role: 'Інженер', color: '#2D6A4F' },
-  { text: 'Зручно, красиво й безкоштовно. Бібліотека статей дала кілька ідей, які я одразу впровадив.', name: 'Марія Т.', role: 'Дизайнерка', color: '#F4A261' },
-]
-
 const TEAM = [
   { initials: 'ШД', name: 'Шевченко Даніл', role: 'PM / Frontend' },
   { initials: 'ВН', name: 'Вознюк Назар', role: 'UX/UI / Контент' },
@@ -157,35 +151,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="section tint">
-        <div className="container">
-          <div className="section-head">
-            <div className="section-tag">Відгуки</div>
-            <h2>Що кажуть користувачі</h2>
-          </div>
-          <div className="testi-grid">
-            {TESTIMONIALS.map((t) => (
-              <div className="card testi-card" key={t.name}>
-                <div className="stars">★★★★★</div>
-                <p>“{t.text}”</p>
-                <div className="testi-author">
-                  <span className="avatar" style={{ background: t.color }}>
-                    {t.name.split(' ').map((w) => w[0]).join('')}
-                  </span>
-                  <div>
-                    <div className="name">{t.name}</div>
-                    <div className="role">{t.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* TEAM */}
-      <section className="section" id="team">
+      <section className="section tint" id="team">
         <div className="container">
           <div className="section-head">
             <div className="section-tag">Наша команда</div>
