@@ -73,17 +73,17 @@ export default function Landing() {
               </a>
             </div>
             <div className="hero-stats">
-              <div>
+              <div className="hero-stat">
                 <div className="hero-stat-num">{users === null ? '…' : <Counter value={users} />}</div>
-                <div className="hero-stat-label">{users === 1 ? 'зареєстрований користувач' : 'зареєстрованих користувачів'}</div>
+                <div className="hero-stat-label">{users === 1 ? 'користувач' : 'користувачів'}</div>
               </div>
-              <div>
+              <div className="hero-stat">
                 <div className="hero-stat-num">{FACTORS.length}</div>
-                <div className="hero-stat-label">типів активностей для обліку</div>
+                <div className="hero-stat-label">типів активностей</div>
               </div>
-              <div>
+              <div className="hero-stat">
                 <div className="hero-stat-num">{ARTICLES.length}</div>
-                <div className="hero-stat-label">статей в еко-бібліотеці</div>
+                <div className="hero-stat-label">статей у бібліотеці</div>
               </div>
             </div>
           </div>
