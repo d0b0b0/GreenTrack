@@ -12,6 +12,7 @@ import {
   YAxis,
 } from 'recharts'
 import { useTheme } from '../context/ThemeProvider'
+import { useLang } from '../context/LangProvider'
 import { CATEGORY_META } from '../lib/carbon'
 import { round1 } from '../lib/format'
 import type { Category } from '../types'
@@ -32,8 +33,9 @@ const tooltipStyle = (dark: boolean) => ({
 
 export function WeeklyBars({ labels, totals, todayIdx }: { labels: string[]; totals: number[]; todayIdx: number }) {
   const { theme } = useTheme()
+  const { tr } = useLang()
   const tick = useTick()
-  const data = labels.map((label, i) => ({ label, co2: round1(totals[i]), active: i === todayIdx }))
+  const data = labels.map((label, i) => ({ label: tr(label), co2: round1(totals[i]), active: i === todayIdx }))
   return (
     <div className="chart-box sm">
       <ResponsiveContainer width="100%" height="100%">
@@ -58,12 +60,13 @@ export function WeeklyBars({ labels, totals, todayIdx }: { labels: string[]; tot
 
 export function SourceDonut({ totals }: { totals: Record<Category, number> }) {
   const { theme } = useTheme()
+  const { t, tr } = useLang()
   const entries = (Object.entries(totals) as [Category, number][]).filter(([, v]) => v > 0)
   const sum = entries.reduce((s, [, v]) => s + v, 0)
   if (sum <= 0) {
-    return <div className="empty"><span className="emoji">🥧</span>Ще немає даних для діаграми</div>
+    return <div className="empty"><span className="emoji">🥧</span>{t('Ще немає даних для діаграми', 'No data for the chart yet')}</div>
   }
-  const data = entries.map(([cat, v]) => ({ name: cat, value: round1(v), color: CATEGORY_META[cat].color }))
+  const data = entries.map(([cat, v]) => ({ name: tr(cat), value: round1(v), color: CATEGORY_META[cat].color }))
   return (
     <div>
       <div className="chart-box sm">
@@ -95,11 +98,13 @@ export function SourceDonut({ totals }: { totals: Record<Category, number> }) {
 
 export function TrendArea({ data }: { data: { label: string; total: number }[] }) {
   const { theme } = useTheme()
+  const { tr } = useLang()
   const tick = useTick()
+  const tdata = data.map((d) => ({ ...d, label: tr(d.label) }))
   return (
     <div className="chart-box">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+        <AreaChart data={tdata} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#52B788" stopOpacity={0.5} />

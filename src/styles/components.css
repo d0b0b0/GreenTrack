@@ -215,6 +215,16 @@
   box-shadow: var(--shadow-lg); font-size: 0.9rem; color: var(--text);
   animation: popIn 0.3s var(--ease) both;
 }
+/* language toggle */
+.lang-toggle { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); }
+.lang-toggle button {
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.02em;
+  padding: 0.22rem 0.55rem; border-radius: 999px; border: none; background: transparent;
+  color: var(--text3); cursor: pointer; transition: all 0.18s; line-height: 1;
+}
+.lang-toggle button:hover { color: var(--text); }
+.lang-toggle button.active { background: var(--green); color: #fff; box-shadow: 0 1px 4px rgba(45, 106, 79, 0.35); }
+
 .toast.achievement { border-left-color: var(--amber); }
 .toast .toast-emoji { font-size: 1.3rem; }
 

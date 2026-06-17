@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppProvider'
+import { useLang } from '../context/LangProvider'
 import { initials } from '../lib/format'
 
 export function UserMenu() {
   const { profile, signOut } = useApp()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -34,16 +36,16 @@ export function UserMenu() {
             <div className="dd-mail">{profile.email}</div>
           </div>
           <button className="dd-item" onClick={() => { setOpen(false); navigate('/app') }}>
-            📊 Панель
+            📊 {t('Панель', 'Dashboard')}
           </button>
           <button className="dd-item" onClick={() => { setOpen(false); navigate('/app/profile') }}>
-            👤 Профіль
+            👤 {t('Профіль', 'Profile')}
           </button>
           <button className="dd-item" onClick={() => { setOpen(false); navigate('/app/profile') }}>
-            ⚙️ Налаштування
+            ⚙️ {t('Налаштування', 'Settings')}
           </button>
           <button className="dd-item danger" onClick={() => { setOpen(false); signOut() }}>
-            🚪 Вийти
+            🚪 {t('Вийти', 'Sign out')}
           </button>
         </div>
       )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppProvider'
+import { useLang } from '../context/LangProvider'
 import { validEmail } from '../lib/format'
 import { Logo } from './Logo'
 
@@ -8,6 +9,7 @@ type Tab = 'login' | 'register'
 
 export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: () => void }) {
   const { signIn, signUp } = useApp()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [tab, setTab] = useState<Tab>(initialTab)
   const [name, setName] = useState('')
@@ -36,10 +38,10 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
     e.preventDefault()
     setError(null)
     if (tab === 'register') {
-      if (!name.trim()) return setError('Введіть ваше ім’я.')
-      if (!validEmail(email)) return setError('Введіть коректну електронну пошту.')
-      if (pw.length < 6) return setError('Пароль має містити щонайменше 6 символів.')
-      if (pw !== pw2) return setError('Паролі не збігаються.')
+      if (!name.trim()) return setError(t('Введіть ваше ім’я.', 'Enter your name.'))
+      if (!validEmail(email)) return setError(t('Введіть коректну електронну пошту.', 'Enter a valid email.'))
+      if (pw.length < 6) return setError(t('Пароль має містити щонайменше 6 символів.', 'Password must be at least 6 characters.'))
+      if (pw !== pw2) return setError(t('Паролі не збігаються.', 'Passwords do not match.'))
       setBusy(true)
       const err = await signUp(name.trim(), email, pw)
       setBusy(false)
@@ -47,8 +49,8 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
       onClose()
       navigate('/app')
     } else {
-      if (!validEmail(email)) return setError('Введіть коректну електронну пошту.')
-      if (!pw) return setError('Введіть пароль.')
+      if (!validEmail(email)) return setError(t('Введіть коректну електронну пошту.', 'Enter a valid email.'))
+      if (!pw) return setError(t('Введіть пароль.', 'Enter your password.'))
       setBusy(true)
       const err = await signIn(email, pw)
       setBusy(false)
@@ -61,20 +63,20 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
   return (
     <div className="modal-overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" role="dialog" aria-modal="true">
-        <button className="modal-close" onClick={onClose} aria-label="Закрити">
+        <button className="modal-close" onClick={onClose} aria-label={t('Закрити', 'Close')}>
           ×
         </button>
         <div className="modal-head">
           <Logo />
           <div className="modal-tabs">
             <button className={`modal-tab ${tab === 'login' ? 'active' : ''}`} onClick={() => switchTab('login')}>
-              Вхід
+              {t('Вхід', 'Sign in')}
             </button>
             <button
               className={`modal-tab ${tab === 'register' ? 'active' : ''}`}
               onClick={() => switchTab('register')}
             >
-              Реєстрація
+              {t('Реєстрація', 'Sign up')}
             </button>
           </div>
         </div>
@@ -83,19 +85,19 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
 
           {tab === 'register' && (
             <div className="field">
-              <label htmlFor="rn">Ім’я</label>
+              <label htmlFor="rn">{t('Ім’я', 'Name')}</label>
               <input
                 id="rn"
                 className="input"
                 autoComplete="name"
-                placeholder="Ваше ім’я"
+                placeholder={t('Ваше ім’я', 'Your name')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
           )}
           <div className="field">
-            <label htmlFor="em">Електронна пошта</label>
+            <label htmlFor="em">{t('Електронна пошта', 'Email')}</label>
             <input
               id="em"
               type="email"
@@ -107,7 +109,7 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
             />
           </div>
           <div className="field">
-            <label htmlFor="pw">Пароль</label>
+            <label htmlFor="pw">{t('Пароль', 'Password')}</label>
             <input
               id="pw"
               type="password"
@@ -117,11 +119,11 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
               value={pw}
               onChange={(e) => setPw(e.target.value)}
             />
-            {tab === 'register' && <div className="field-hint">Мінімум 6 символів</div>}
+            {tab === 'register' && <div className="field-hint">{t('Мінімум 6 символів', 'At least 6 characters')}</div>}
           </div>
           {tab === 'register' && (
             <div className="field">
-              <label htmlFor="pw2">Підтвердіть пароль</label>
+              <label htmlFor="pw2">{t('Підтвердіть пароль', 'Confirm password')}</label>
               <input
                 id="pw2"
                 type="password"
@@ -135,22 +137,22 @@ export function AuthModal({ initialTab, onClose }: { initialTab: Tab; onClose: (
           )}
 
           <button type="submit" className="btn btn-primary block" disabled={busy}>
-            {busy ? <span className="spinner" /> : tab === 'register' ? 'Створити акаунт 🌿' : 'Увійти в акаунт'}
+            {busy ? <span className="spinner" /> : tab === 'register' ? t('Створити акаунт 🌿', 'Create account 🌿') : t('Увійти в акаунт', 'Sign in')}
           </button>
 
           <div className="modal-foot">
             {tab === 'register' ? (
               <>
-                Вже маєте акаунт?{' '}
+                {t('Вже маєте акаунт?', 'Already have an account?')}{' '}
                 <button type="button" className="btn-link" onClick={() => switchTab('login')}>
-                  Увійти
+                  {t('Увійти', 'Sign in')}
                 </button>
               </>
             ) : (
               <>
-                Ще немає акаунта?{' '}
+                {t('Ще немає акаунта?', "Don't have an account?")}{' '}
                 <button type="button" className="btn-link" onClick={() => switchTab('register')}>
-                  Зареєструватися
+                  {t('Зареєструватися', 'Sign up')}
                 </button>
               </>
             )}

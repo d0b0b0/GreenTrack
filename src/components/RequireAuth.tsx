@@ -16,7 +16,6 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
     return (
       <div className="loading-screen">
         <span className="spinner" />
-        Завантаження…
       </div>
     )
   }

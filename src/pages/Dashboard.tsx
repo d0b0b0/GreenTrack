@@ -1,4 +1,5 @@
 import { useApp } from '../context/AppProvider'
+import { useLang } from '../context/LangProvider'
 import { EnvBanner } from '../components/EnvBanner'
 import { Tabs } from '../components/Tabs'
 import { OverviewPanel } from '../components/panels/OverviewPanel'
@@ -7,6 +8,7 @@ import { levelFor } from '../lib/levels'
 
 export default function Dashboard() {
   const { profile } = useApp()
+  const { t } = useLang()
   if (!profile) return null
   const lvl = levelFor(profile.ecoPoints)
 
@@ -14,17 +16,17 @@ export default function Dashboard() {
     <div className="route-fade">
       <div style={{ marginBottom: '1.4rem' }}>
         <h1 className="greeting">
-          Вітаємо, <em>{profile.name.split(' ')[0]}</em>! {lvl.emoji}
+          {t('Вітаємо, ', 'Welcome, ')}<em>{profile.name.split(' ')[0]}</em>! {lvl.emoji}
         </h1>
-        <p className="page-sub">Ваша еко-панель: логуйте дії, відстежуйте прогрес і виконуйте челенджі.</p>
+        <p className="page-sub">{t('Ваша еко-панель: логуйте дії, відстежуйте прогрес і виконуйте челенджі.', 'Your eco-dashboard: log actions, track progress, and complete challenges.')}</p>
       </div>
 
       <EnvBanner />
 
       <Tabs
         tabs={[
-          { id: 'overview', label: '📊 Огляд', render: () => <OverviewPanel /> },
-          { id: 'analytics', label: '📈 Аналітика', render: () => <AnalyticsPanel /> },
+          { id: 'overview', label: `📊 ${t('Огляд', 'Overview')}`, render: () => <OverviewPanel /> },
+          { id: 'analytics', label: `📈 ${t('Аналітика', 'Analytics')}`, render: () => <AnalyticsPanel /> },
         ]}
       />
     </div>

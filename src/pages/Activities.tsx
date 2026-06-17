@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../context/AppProvider'
+import { useLang } from '../context/LangProvider'
 import { ActivityForm } from '../components/ActivityForm'
 import { ActivityList } from '../components/ActivityList'
 import { CATEGORIES } from '../lib/carbon'
@@ -11,6 +12,7 @@ type Filter = Category | 'Всі'
 
 export default function Activities() {
   const { activities } = useApp()
+  const { t, tr } = useLang()
   const [filter, setFilter] = useState<Filter>('Всі')
   const [q, setQ] = useState('')
 
@@ -37,34 +39,34 @@ export default function Activities() {
     <div className="route-fade">
       <div className="row between wrap" style={{ marginBottom: '1.2rem', gap: '0.8rem' }}>
         <div>
-          <h1 className="greeting">Активності</h1>
-          <p className="page-sub">Усі ваші записи в одному місці. Усього {activities.length} · цей місяць {fmtKg(monthlyTotal(activities))}.</p>
+          <h1 className="greeting">{t('Активності', 'Activities')}</h1>
+          <p className="page-sub">{t('Усі ваші записи в одному місці.', 'All your entries in one place.')} {t('Усього', 'Total')} {activities.length} · {t('цей місяць', 'this month')} {fmtKg(monthlyTotal(activities))}.</p>
         </div>
         <button className="btn btn-ghost sm" onClick={exportCsv} disabled={!activities.length}>
-          ⬇️ Експорт CSV
+          ⬇️ {t('Експорт CSV', 'Export CSV')}
         </button>
       </div>
 
       <div className="dash-grid stagger">
         <div className="card col-12">
-          <div className="card-title">Додати активність</div>
+          <div className="card-title">{t('Додати активність', 'Add an activity')}</div>
           <ActivityForm />
         </div>
 
         <div className="card col-4 kpi">
           <span className="kpi-ico">📋</span>
-          <div className="stat-label">Усього записів</div>
+          <div className="stat-label">{t('Усього записів', 'Total entries')}</div>
           <div className="stat-value">{activities.length}</div>
         </div>
         <div className="card col-4 kpi">
           <span className="kpi-ico">🌍</span>
-          <div className="stat-label">Сумарно CO₂</div>
-          <div className="stat-value">{round1(totalCo2(activities))} <span style={{ fontSize: '1rem' }}>кг</span></div>
+          <div className="stat-label">{t('Сумарно CO₂', 'Total CO₂')}</div>
+          <div className="stat-value">{round1(totalCo2(activities))} <span style={{ fontSize: '1rem' }}>{t('кг', 'kg')}</span></div>
         </div>
         <div className="card col-4 kpi">
           <span className="kpi-ico">📅</span>
-          <div className="stat-label">Цього місяця</div>
-          <div className="stat-value">{round1(monthlyTotal(activities))} <span style={{ fontSize: '1rem' }}>кг</span></div>
+          <div className="stat-label">{t('Цього місяця', 'This month')}</div>
+          <div className="stat-value">{round1(monthlyTotal(activities))} <span style={{ fontSize: '1rem' }}>{t('кг', 'kg')}</span></div>
         </div>
 
         <div className="card col-12">
@@ -72,19 +74,19 @@ export default function Activities() {
             <div className="row wrap gap">
               {(['Всі', ...CATEGORIES] as Filter[]).map((c) => (
                 <button key={c} className={`chip ${filter === c ? 'active' : ''}`} onClick={() => setFilter(c)}>
-                  {c}
+                  {c === 'Всі' ? t('Всі', 'All') : tr(c)}
                 </button>
               ))}
             </div>
             <input
               className="input"
               style={{ maxWidth: 220 }}
-              placeholder="🔍 Пошук за нотаткою…"
+              placeholder={t('🔍 Пошук за нотаткою…', '🔍 Search by note…')}
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
-          <ActivityList items={filtered} emptyHint={activities.length ? 'Нічого не знайдено за фільтром.' : undefined} />
+          <ActivityList items={filtered} emptyHint={activities.length ? t('Нічого не знайдено за фільтром.', 'Nothing found for this filter.') : undefined} />
         </div>
       </div>
     </div>

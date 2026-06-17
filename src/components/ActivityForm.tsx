@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../context/AppProvider'
+import { useLang } from '../context/LangProvider'
 import { CATEGORIES, CATEGORY_META } from '../lib/carbon'
 import { computeCo2, FACTORS, factorById, factorsByCategory, QUICK_PRESETS } from '../lib/factors'
 import { round1, todayISO } from '../lib/format'
@@ -7,6 +8,7 @@ import type { Category } from '../types'
 
 export function ActivityForm() {
   const { addActivity } = useApp()
+  const { t, tr } = useLang()
   const [category, setCategory] = useState<Category>('Транспорт')
   const [factorId, setFactorId] = useState<string>(factorsByCategory('Транспорт')[0].id)
   const [quantity, setQuantity] = useState<number>(factorsByCategory('Транспорт')[0].def)
@@ -70,22 +72,22 @@ export function ActivityForm() {
   return (
     <div>
       {/* one-tap presets */}
-      <div className="muted" style={{ fontSize: '0.82rem', marginBottom: '0.55rem' }}>Швидке додавання</div>
+      <div className="muted" style={{ fontSize: '0.82rem', marginBottom: '0.55rem' }}>{t('Швидке додавання', 'Quick add')}</div>
       <div className="row wrap gap" style={{ marginBottom: '1.2rem' }}>
         {QUICK_PRESETS.map((p) => {
           const f = factorById(p.factorId)!
           return (
-            <button key={p.factorId} className="chip" onClick={() => quickAdd(p.factorId, p.quantity)} title={`≈ ${computeCo2(f, p.quantity)} кг CO₂`}>
-              {f.icon} {f.label} · {p.quantity} {f.unit}
+            <button key={p.factorId} className="chip" onClick={() => quickAdd(p.factorId, p.quantity)} title={`≈ ${computeCo2(f, p.quantity)} ${t('кг CO₂', 'kg CO₂')}`}>
+              {f.icon} {tr(f.label)} · {p.quantity} {tr(f.unit)}
             </button>
           )
         })}
       </div>
 
       <div className="row between" style={{ marginBottom: '0.55rem' }}>
-        <div className="muted" style={{ fontSize: '0.82rem' }}>Порахувати за активністю</div>
+        <div className="muted" style={{ fontSize: '0.82rem' }}>{t('Порахувати за активністю', 'Calculate by activity')}</div>
         <button type="button" className="btn-link" style={{ fontSize: '0.8rem' }} onClick={() => setManual((m) => !m)}>
-          {manual ? '← за активністю' : 'ввести кг вручну'}
+          {manual ? t('← за активністю', '← by activity') : t('ввести кг вручну', 'enter kg manually')}
         </button>
       </div>
 
@@ -99,7 +101,7 @@ export function ActivityForm() {
               className={`chip ${category === c ? 'active' : ''}`}
               onClick={() => changeCategory(c)}
             >
-              {CATEGORY_META[c].icon} {c}
+              {CATEGORY_META[c].icon} {tr(c)}
             </button>
           ))}
         </div>
@@ -107,36 +109,36 @@ export function ActivityForm() {
         {manual ? (
           <div className="log-form">
             <div className="field">
-              <label>Категорія</label>
+              <label>{t('Категорія', 'Category')}</label>
               <select className="select" value={category} onChange={(e) => setCategory(e.target.value as Category)}>
-                {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+                {CATEGORIES.map((c) => (<option key={c} value={c}>{tr(c)}</option>))}
               </select>
             </div>
             <div className="field">
-              <label>CO₂ (кг)</label>
-              <input className="input" type="number" step="0.1" placeholder="напр. 4.5" value={manualCo2} onChange={(e) => setManualCo2(e.target.value)} />
+              <label>{t('CO₂ (кг)', 'CO₂ (kg)')}</label>
+              <input className="input" type="number" step="0.1" placeholder={t('напр. 4.5', 'e.g. 4.5')} value={manualCo2} onChange={(e) => setManualCo2(e.target.value)} />
             </div>
             <div className="field">
-              <label>Нотатка</label>
-              <input className="input" type="text" placeholder="необов'язково" value={note} onChange={(e) => setNote(e.target.value)} />
+              <label>{t('Нотатка', 'Note')}</label>
+              <input className="input" type="text" placeholder={t("необов'язково", 'optional')} value={note} onChange={(e) => setNote(e.target.value)} />
             </div>
             <div className="field">
-              <label>Дата</label>
+              <label>{t('Дата', 'Date')}</label>
               <input className="input" type="date" value={date} max={todayISO()} onChange={(e) => setDate(e.target.value)} />
             </div>
-            <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? <span className="spinner" /> : 'Додати'}</button>
+            <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? <span className="spinner" /> : t('Додати', 'Add')}</button>
           </div>
         ) : (
           <>
             <div className="log-form">
               <div className="field">
-                <label>Активність</label>
+                <label>{t('Активність', 'Activity')}</label>
                 <select className="select" value={factorId} onChange={(e) => changeFactor(e.target.value)}>
-                  {list.map((f) => (<option key={f.id} value={f.id}>{f.icon} {f.label}</option>))}
+                  {list.map((f) => (<option key={f.id} value={f.id}>{f.icon} {tr(f.label)}</option>))}
                 </select>
               </div>
               <div className="field">
-                <label>Кількість ({factor.unit})</label>
+                <label>{t('Кількість', 'Quantity')} ({tr(factor.unit)})</label>
                 <input
                   className="input"
                   type="number"
@@ -147,21 +149,21 @@ export function ActivityForm() {
                 />
               </div>
               <div className="field">
-                <label>Нотатка</label>
-                <input className="input" type="text" placeholder="необов'язково" value={note} onChange={(e) => setNote(e.target.value)} />
+                <label>{t('Нотатка', 'Note')}</label>
+                <input className="input" type="text" placeholder={t("необов'язково", 'optional')} value={note} onChange={(e) => setNote(e.target.value)} />
               </div>
               <div className="field">
-                <label>Дата</label>
+                <label>{t('Дата', 'Date')}</label>
                 <input className="input" type="date" value={date} max={todayISO()} onChange={(e) => setDate(e.target.value)} />
               </div>
-              <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? <span className="spinner" /> : 'Додати'}</button>
+              <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? <span className="spinner" /> : t('Додати', 'Add')}</button>
             </div>
 
             {/* live preview */}
             <div className="co2-preview">
-              <span>{factor.icon} {factor.label}</span>
+              <span>{factor.icon} {tr(factor.label)}</span>
               <span className="co2-preview-val" style={co2 < 0 ? { color: 'var(--green-light)' } : undefined}>
-                ≈ {co2 < 0 ? '' : '+'}{co2} кг CO₂
+                ≈ {co2 < 0 ? '' : '+'}{co2} {t('кг CO₂', 'kg CO₂')}
               </span>
             </div>
           </>

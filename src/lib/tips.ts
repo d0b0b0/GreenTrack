@@ -1,32 +1,35 @@
 import type { Activity, Category } from '../types'
 import { monthlyTotal, sourceTotals } from './carbon'
+import { translate, type Lang } from './i18n'
 
 /** Personalised tips derived from the user's data (lightweight "AI"). */
-export function personalTips(log: Activity[], goal: number): { icon: string; text: string }[] {
+export function personalTips(log: Activity[], goal: number, lang: Lang = 'uk'): { icon: string; text: string }[] {
+  const p = (uk: string, en: string) => (lang === 'en' ? en : uk)
   if (log.length === 0) {
     return [
-      { icon: '🌿', text: 'Додайте першу активність, щоб отримати персональні поради.' },
-      { icon: '🚲', text: 'Спробуйте замінити коротку поїздку авто на велосипед чи пішу прогулянку.' },
-      { icon: '🧮', text: 'Скористайтесь калькулятором, щоб дізнатися свій річний слід.' },
+      { icon: '🌿', text: p('Додайте першу активність, щоб отримати персональні поради.', 'Add your first activity to get personalised tips.') },
+      { icon: '🚲', text: p('Спробуйте замінити коротку поїздку авто на велосипед чи пішу прогулянку.', 'Try swapping a short car trip for a bike ride or a walk.') },
+      { icon: '🧮', text: p('Скористайтесь калькулятором, щоб дізнатися свій річний слід.', 'Use the calculator to find out your annual footprint.') },
     ]
   }
   const totals = sourceTotals(log)
   const top = (Object.entries(totals).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'Інше') as Category
   const byCat: Record<Category, { icon: string; text: string }> = {
-    'Транспорт': { icon: '🚗', text: 'Транспорт — ваше головне джерело викидів. Об’єднуйте поїздки, пересідайте на громадський транспорт або велосипед.' },
-    'Енергія': { icon: '💡', text: 'Багато викидів від енергії. Знижуйте температуру на 1°C, переходьте на LED та вимикайте прилади з режиму очікування.' },
-    'Їжа': { icon: '🥗', text: 'Харчування дає помітний слід. Додайте 2–3 рослинні дні на тиждень і плануйте покупки, щоб менше викидати їжу.' },
-    'Покупки': { icon: '🛍️', text: 'Покупки накопичують слід. Обирайте довговічні речі, секондхенд та об’єднуйте доставки.' },
-    'Інше': { icon: '♻️', text: 'Сортуйте відходи та зменшуйте одноразовий пластик — це швидкі перемоги.' },
+    'Транспорт': { icon: '🚗', text: p('Транспорт — ваше головне джерело викидів. Об’єднуйте поїздки, пересідайте на громадський транспорт або велосипед.', 'Transport is your biggest emissions source. Combine trips, switch to public transport or a bike.') },
+    'Енергія': { icon: '💡', text: p('Багато викидів від енергії. Знижуйте температуру на 1°C, переходьте на LED та вимикайте прилади з режиму очікування.', 'Lots of emissions from energy. Lower the temperature by 1°C, switch to LED, and turn off standby devices.') },
+    'Їжа': { icon: '🥗', text: p('Харчування дає помітний слід. Додайте 2–3 рослинні дні на тиждень і плануйте покупки, щоб менше викидати їжу.', 'Food has a noticeable footprint. Add 2–3 plant-based days a week and plan shopping to waste less food.') },
+    'Покупки': { icon: '🛍️', text: p('Покупки накопичують слід. Обирайте довговічні речі, секондхенд та об’єднуйте доставки.', 'Shopping adds up. Choose durable items, second-hand, and combine deliveries.') },
+    'Інше': { icon: '♻️', text: p('Сортуйте відходи та зменшуйте одноразовий пластик — це швидкі перемоги.', 'Sort waste and cut single-use plastic — these are quick wins.') },
   }
   const tips = [byCat[top]]
   const monthly = monthlyTotal(log)
+  const topName = translate(top, lang)
   if (monthly > goal) {
-    tips.push({ icon: '🎯', text: `Ви перевищили місячну ціль (${goal} кг). Сфокусуйтесь на «${top}» наступного тижня.` })
+    tips.push({ icon: '🎯', text: p(`Ви перевищили місячну ціль (${goal} кг). Сфокусуйтесь на «${topName}» наступного тижня.`, `You exceeded your monthly goal (${goal} kg). Focus on "${topName}" next week.`) })
   } else {
-    tips.push({ icon: '✅', text: `Чудово — ви в межах місячної цілі. Залишилось ${Math.round(goal - monthly)} кг бюджету.` })
+    tips.push({ icon: '✅', text: p(`Чудово — ви в межах місячної цілі. Залишилось ${Math.round(goal - monthly)} кг бюджету.`, `Great — you're within your monthly goal. ${Math.round(goal - monthly)} kg of budget left.`) })
   }
-  tips.push({ icon: '🔥', text: 'Логуйте щодня — навіть дрібниці. Регулярність важливіша за ідеальність.' })
+  tips.push({ icon: '🔥', text: p('Логуйте щодня — навіть дрібниці. Регулярність важливіша за ідеальність.', 'Log every day — even small things. Consistency beats perfection.') })
   return tips
 }
 

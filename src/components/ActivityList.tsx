@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useApp } from '../context/AppProvider'
 import { useConfirm } from '../context/ConfirmProvider'
+import { useLang } from '../context/LangProvider'
 import { CATEGORY_META } from '../lib/carbon'
 import { fmtDate, round1 } from '../lib/format'
 import { ActivityEditModal } from './ActivityEditModal'
@@ -8,14 +9,16 @@ import type { Activity } from '../types'
 
 export function ActivityList({ items, emptyHint }: { items: Activity[]; emptyHint?: string }) {
   const { deleteActivity } = useApp()
+  const { t, tr } = useLang()
   const confirm = useConfirm()
   const [editing, setEditing] = useState<Activity | null>(null)
 
   async function remove(e: Activity) {
     const ok = await confirm({
-      title: 'Видалити запис?',
-      message: `${CATEGORY_META[e.category].icon} ${e.category} · ${round1(e.co2)} кг · ${fmtDate(e.date)}. Цю дію не можна скасувати.`,
-      confirmText: 'Видалити',
+      title: t('Видалити запис?', 'Delete entry?'),
+      message: `${CATEGORY_META[e.category].icon} ${tr(e.category)} · ${round1(e.co2)} ${t('кг', 'kg')} · ${fmtDate(e.date)}. ${t('Цю дію не можна скасувати.', 'This action cannot be undone.')}`,
+      confirmText: t('Видалити', 'Delete'),
+      cancelText: t('Скасувати', 'Cancel'),
       danger: true,
     })
     if (ok) await deleteActivity(e.id)
@@ -25,7 +28,7 @@ export function ActivityList({ items, emptyHint }: { items: Activity[]; emptyHin
     return (
       <div className="empty">
         <span className="emoji">🌱</span>
-        {emptyHint ?? 'Поки що немає записів. Додайте свою першу активність вище.'}
+        {emptyHint ?? t('Поки що немає записів. Додайте свою першу активність вище.', 'No entries yet. Add your first activity above.')}
       </div>
     )
   }
@@ -39,16 +42,16 @@ export function ActivityList({ items, emptyHint }: { items: Activity[]; emptyHin
             <div className="log-item" key={e.id}>
               <span className="log-dot" style={{ background: meta.color }} />
               <div>
-                <div className="log-cat">{meta.icon} {e.category}</div>
+                <div className="log-cat">{meta.icon} {tr(e.category)}</div>
                 {e.note && <div className="log-note">{e.note}</div>}
               </div>
               <span className="log-co2" style={e.co2 < 0 ? { color: 'var(--green-light)' } : undefined}>
-                {e.co2 < 0 ? '' : '+'}{round1(e.co2)} кг
+                {e.co2 < 0 ? '' : '+'}{round1(e.co2)} {t('кг', 'kg')}
               </span>
               <span className="log-date">{fmtDate(e.date)}</span>
               <div className="log-actions">
-                <button className="log-edit" title="Редагувати" onClick={() => setEditing(e)}>✏️</button>
-                <button className="log-del" title="Видалити" onClick={() => remove(e)}>×</button>
+                <button className="log-edit" title={t('Редагувати', 'Edit')} onClick={() => setEditing(e)}>✏️</button>
+                <button className="log-del" title={t('Видалити', 'Delete')} onClick={() => remove(e)}>×</button>
               </div>
             </div>
           )

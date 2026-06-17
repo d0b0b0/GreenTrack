@@ -18,7 +18,6 @@ function PageFallback() {
   return (
     <div className="loading-screen">
       <span className="spinner" />
-      Завантаження…
     </div>
   )
 }
