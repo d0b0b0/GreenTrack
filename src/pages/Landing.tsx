@@ -1,7 +1,12 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppProvider'
 import { useAuthModal } from '../context/AuthModalProvider'
 import { CalculatorWidget } from '../components/CalculatorWidget'
+import { Counter } from '../components/Counter'
+import { backend } from '../data/backend'
+import { FACTORS } from '../lib/factors'
+import { ARTICLES } from '../lib/tips'
 
 const FEATURES = [
   { icon: '🌍', title: 'Розрахунок сліду', text: 'Вводьте дані про транспорт, харчування та побут — отримуйте точні цифри впливу на клімат.' },
@@ -34,6 +39,15 @@ export default function Landing() {
   const { authed } = useApp()
   const { open } = useAuthModal()
   const navigate = useNavigate()
+  const [users, setUsers] = useState<number | null>(null)
+
+  useEffect(() => {
+    let active = true
+    backend.userCount().then((n) => active && setUsers(n)).catch(() => active && setUsers(0))
+    return () => {
+      active = false
+    }
+  }, [])
 
   const startCta = () => (authed ? navigate('/app') : open('register'))
 
@@ -66,16 +80,16 @@ export default function Landing() {
             </div>
             <div className="hero-stats">
               <div>
-                <div className="hero-stat-num">2 400+</div>
-                <div className="hero-stat-label">активних користувачів</div>
+                <div className="hero-stat-num">{users === null ? '…' : <Counter value={users} />}</div>
+                <div className="hero-stat-label">{users === 1 ? 'зареєстрований користувач' : 'зареєстрованих користувачів'}</div>
               </div>
               <div>
-                <div className="hero-stat-num">−18%</div>
-                <div className="hero-stat-label">середнє скорочення CO₂</div>
+                <div className="hero-stat-num">{FACTORS.length}</div>
+                <div className="hero-stat-label">типів активностей для обліку</div>
               </div>
               <div>
-                <div className="hero-stat-num">50+</div>
-                <div className="hero-stat-label">еко-порад і статей</div>
+                <div className="hero-stat-num">{ARTICLES.length}</div>
+                <div className="hero-stat-label">статей в еко-бібліотеці</div>
               </div>
             </div>
           </div>

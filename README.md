@@ -1,110 +1,118 @@
 # 🌿 GreenTrack
 
-Веб-приложение для отслеживания и снижения личного углеродного следа.
-Считайте выбросы CO₂, ведите дневник активностей, выполняйте эко-челленджи,
-открывайте достижения, соревнуйтесь в рейтинге и читайте эко-библиотеку.
+A web app for tracking and reducing your personal carbon footprint.
+Measure CO₂ emissions, keep an activity log, complete eco-challenges,
+unlock achievements, compete on the leaderboard, and read the eco-library.
 
-Переписано с одностраничного HTML на полноценное **React + TypeScript (Vite)**
-приложение с аккаунтами и **бесплатной облачной базой данных (Supabase)**.
+Rewritten from a single static HTML page into a full **React + TypeScript (Vite)**
+application with user accounts and a **free cloud database (Supabase)**.
 
 ![stack](https://img.shields.io/badge/React-18-149ECA) ![vite](https://img.shields.io/badge/Vite-5-646CFF) ![supabase](https://img.shields.io/badge/Supabase-Postgres-3ECF8E)
 
+> The product UI is in Ukrainian; this README is in English.
+
 ---
 
-## ✨ Возможности
+## ✨ Features
 
-- 👤 **Аккаунты** — регистрация, вход, профиль, настройки приватности.
-- 📝 **Дневник активностей** — быстрые пресеты + ручной ввод, категории,
-  поиск, фильтры, экспорт в CSV.
-- 📊 **Дашборд** — CO₂ за месяц, эко-рейтинг, серия дней, цели, графики.
-- 📈 **Аналитика** — динамика за 6 месяцев, по дням недели, разбивка по категориям.
-- 🧮 **Калькулятор** годового следа со сравнением со средним по Украине.
-- 🎯 **Челленджи** — эко-задания с автоматическим отслеживанием прогресса.
-- 🏅 **Достижения** — 13 бейджей за активность и привычки.
-- ⭐ **Уровни и баллы** — 7 уровней роста (от Паростка до Лесу).
-- 🏆 **Рейтинг сообщества** — подиум и таблица лидеров.
-- 📚 **Эко-библиотека** — статьи о транспорте, еде, энергии, потреблении.
-- 🌙 **Тёмная тема**, адаптивный дизайн, плавные анимации.
-- 🧪 **Demo-режим** — работает без настройки (данные в localStorage), а с ключами
-  Supabase автоматически переключается на облачную БД.
+- 👤 **Accounts** — sign up, sign in, profile, privacy settings.
+- 📝 **Activity log** — pick an activity + quantity (km, portion, kWh…) and CO₂ is
+  computed automatically from emission factors, with a live preview. One-tap
+  presets, manual entry, edit, delete-with-confirmation, search, filters, CSV export.
+- 📊 **Dashboard** — monthly CO₂, eco-rating, day streak, goals, animated counters and charts.
+- 📈 **Analytics** — 6-month trend, weekday breakdown, per-category split.
+- 🧮 **Calculator** — annual footprint estimate compared with the Ukrainian average
+  (embedded on the landing page and inside the app).
+- 🎯 **Challenges** — eco-tasks with automatic progress tracking.
+- 🏅 **Achievements** — badges unlocked through activity and habits, with celebratory pop-ups.
+- ⭐ **Levels & points** — 7 growth levels (from Sprout to Forest).
+- 🏆 **Community leaderboard** — podium and ranking of users with a public profile.
+- 📚 **Eco-library** — articles on transport, food, energy, and conscious consumption.
+- 🌙 **Dark theme**, responsive design, smooth animations.
+- 🧪 **Demo mode** — works with zero setup (data in `localStorage`); add Supabase keys
+  and it automatically switches to the cloud database.
 
-## 🚀 Быстрый старт
+## 🚀 Quick start
 
 ```bash
 npm install
 npm run dev
 ```
 
-Откроется http://localhost:5173 — можно сразу регистрироваться и пользоваться
-(в demo-режиме данные хранятся в браузере).
+Open http://localhost:5173 — you can register and use it right away
+(in demo mode data is stored in the browser).
 
-### Сборка
+### Build
 
 ```bash
-npm run build      # сборка в dist/
-npm run preview    # локальный предпросмотр сборки
+npm run build      # production build into dist/
+npm run preview    # local preview of the build
 ```
 
-## 🗄️ Подключить настоящую БД (бесплатно)
+## 🗄️ Connect a real database (free)
 
-Подробная инструкция: **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** (5 минут).
+Full guide: **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** (~5 minutes).
 
-Кратко:
-1. Создать бесплатный проект на [supabase.com](https://supabase.com).
-2. Выполнить [`supabase/schema.sql`](./supabase/schema.sql) в SQL Editor.
-3. Скопировать `Project URL` и `anon`-ключ в файл `.env`:
+In short:
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Run [`supabase/schema.sql`](./supabase/schema.sql) in the SQL Editor.
+3. Copy the `Project URL` and `anon` key into a `.env` file:
    ```
    VITE_SUPABASE_URL=...
    VITE_SUPABASE_ANON_KEY=...
    ```
-4. Перезапустить `npm run dev`. Жёлтый баннер «Demo-режим» исчезнет.
+4. Restart `npm run dev`. The yellow "Demo mode" banner disappears.
 
-## ☁️ Деплой
+The schema enables Row Level Security so users can only read/write their own
+data; the leaderboard exposes only name, avatar, level, and points (no email).
 
-### Vercel (рекомендуется)
+## ☁️ Deploy
 
-1. Запушьте проект на GitHub.
-2. На [vercel.com](https://vercel.com) → **Add New → Project** → импортируйте репозиторий.
-   Vercel сам определит Vite (настройки уже в `vercel.json`).
-3. Добавьте переменные окружения `VITE_SUPABASE_URL` и `VITE_SUPABASE_ANON_KEY`
-   (Settings → Environment Variables), затем **Deploy**.
+### Vercel (recommended)
+
+1. Push the project to GitHub.
+2. On [vercel.com](https://vercel.com) → **Add New → Project** → import the repo.
+   Vercel auto-detects Vite (settings are already in `vercel.json`).
+3. Add the environment variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+   (Settings → Environment Variables), then **Deploy**.
 
 ### GitHub Pages
 
-1. В `.env` или в настройках сборки задайте базовый путь репозитория:
+1. Set the repository base path in `.env` or the build settings:
    ```
-   VITE_BASE_PATH=/<имя-репозитория>/
+   VITE_BASE_PATH=/<repository-name>/
    ```
-2. `npm run build` и опубликуйте папку `dist/` (например, через `gh-pages`
-   или GitHub Actions). SPA-маршрутизация: продублируйте `index.html` в `404.html`.
+2. Run `npm run build` and publish the `dist/` folder (e.g. via `gh-pages`
+   or GitHub Actions). For SPA routing, duplicate `index.html` as `404.html`.
 
-> Для Vercel `VITE_BASE_PATH` указывать **не нужно** (база `/`).
+> For Vercel you do **not** need `VITE_BASE_PATH` (base is `/`).
 
-## 🧩 Технологии
+## 🧩 Tech stack
 
-| Слой        | Технология                          |
-|-------------|-------------------------------------|
-| UI          | React 18 + TypeScript + Vite        |
-| Маршрутизация | react-router-dom v6               |
-| Графики     | Recharts                            |
-| Стили       | Чистый CSS (дизайн-система + темы)   |
-| БД / Auth   | Supabase (PostgreSQL) или localStorage |
+| Layer        | Technology                              |
+|--------------|-----------------------------------------|
+| UI           | React 18 + TypeScript + Vite            |
+| Routing      | react-router-dom v6                     |
+| Charts       | Recharts                                |
+| Styling      | Plain CSS (design system + themes)      |
+| DB / Auth    | Supabase (PostgreSQL) or localStorage   |
 
-## 📁 Структура
+## 📁 Project structure
 
 ```
 src/
-├── components/     UI-компоненты (навигация, графики, формы, модалки)
-├── context/        провайдеры: тема, тосты, авторизация+данные, модалка входа
-├── data/           слой данных: local (localStorage) / remote (Supabase)
-├── lib/            логика: расчёты CO₂, челленджи, достижения, уровни, советы
-├── pages/          страницы (лендинг, дашборд, аналитика, рейтинг и т.д.)
-└── styles/         дизайн-система (токены, компоненты, лейаут, страницы)
-supabase/schema.sql SQL-схема для создания БД
+├── components/      UI components (nav, charts, forms, modals)
+│   └── panels/      reusable tab panels (overview, analytics, challenges…)
+├── context/         providers: theme, toasts, auth+data, auth modal, confirm
+├── data/            data layer: local (localStorage) / remote (Supabase)
+├── lib/             logic: CO₂ math, emission factors, challenges, achievements, levels, tips
+├── pages/           pages (landing, dashboard, activities, community, profile…)
+└── styles/          design system (tokens, components, layout, pages)
+supabase/schema.sql  SQL schema to create the database
 ```
 
-## 👥 Команда
+## 👥 Team
 
-Студенческий проект · НУБіП України — Шевченко Даніл, Вознюк Назар.
+Student project · NUBiP of Ukraine — Danil Shevchenko, Nazar Vozniuk.
 
-Зроблено з 💚 для екологічного майбутнього.
+Made with 💚 for a greener future.

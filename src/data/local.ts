@@ -250,4 +250,9 @@ export class LocalBackend implements Backend {
     all.sort((a, b) => b.ecoPoints - a.ecoPoints)
     return all
   }
+
+  async userCount(): Promise<number> {
+    // real accounts registered in this browser (demo mode)
+    return Object.keys(this.users()).length
+  }
 }

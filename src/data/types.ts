@@ -42,4 +42,5 @@ export interface Backend {
 
   /* community */
   leaderboard(meId: string): Promise<LeaderboardEntry[]>
+  userCount(): Promise<number>
 }

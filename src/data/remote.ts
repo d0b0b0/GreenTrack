@@ -244,4 +244,12 @@ export class SupabaseBackend implements Backend {
         isMe: r.id === meId,
       }))
   }
+
+  async userCount(): Promise<number> {
+    const { count, error } = await sb()
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+    if (error) throw error
+    return count ?? 0
+  }
 }
